@@ -5,7 +5,7 @@ COPY . /
 
 RUN pip install -r /tmp/requirements.txt
 
-ADD entrypoint.py /
-RUN chmod +x /entrypoint.py
+ADD shisito.py /
+RUN chmod +x /shisito.py
 
-CMD [ "python", "/entrypoint.py" ]
+CMD [ "python", "/shisito.py" ]
