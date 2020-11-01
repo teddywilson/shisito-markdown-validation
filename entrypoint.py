@@ -3,11 +3,10 @@
 import io
 import numpy as np
 import os
+import os.path
 import re
 import sys
 import yaml
-
-from pathlib import Path
 
 # TODO(teddywilson) make this configurable
 SHISITO_CONFIG_PATH = "/github/workspace/shisito.yml"
@@ -22,13 +21,8 @@ def fail(error_message):
   print('❌' + ' ' + error_message)
   sys.exit(1)
 
-def rglob_exists(rglob_path):
-  files = [file for file in Path(rglob_path).rglob('*.md')] 
-  _, counts = np.unique([file.parent for file in files ], return_counts=True)
-  return counts != 0
-
 def validate_shisito_config_exists():
-  if not rglob_exists(SHISITO_CONFIG_PATH):
+  if not os.path.isfile(SHISITO_CONFIG_PATH):
     fail("""Shisito config not found! A shisito.yml config must be defined in your project's root 
             directory.""")
 
