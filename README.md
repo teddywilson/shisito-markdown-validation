@@ -14,3 +14,43 @@
     <img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="Shisito is released under the MIT license." />
   </a>
 </p>
+
+### Getting started
+
+1. ** Add Shisito to your Github workflow. **
+
+The first step will be to add the Shisito action to your [Github workflow](https://docs.github.com/en/free-pro-team@latest/actions/learn-github-actions/introduction-to-github-actions).
+
+In your your workflow `.yml` file, add Shisito as a step. For example, a simple CI file (`.github/workflows/ci.yml`) that runs on any push, may look like the following (excluding any other steps you might add):
+
+```
+name: CI
+on: [push]
+
+jobs:
+  build-library:
+    runs-on: ubuntu-latest
+    name: build-library
+    steps:
+      - uses: actions/checkout@v1
+      - uses: teddywilson/shisito@v0.0.2
+```
+
+2. ** Define your Shisito configuration file. **
+
+In the root directory of your project, you must define a `shisito.yml` file. This configuration file provides Shisito with the information it needs to run tests against your markdown files.
+
+| Key             | Required | Type   | Description                                                |
+| --------------- | -------- | ------ |------------------------------------------------------------|
+| filepattern     | yes      | string | Filepattern string which follows standard Unix file        |
+|                 |          |        | expansion. E.g., (`files/*`, `files/*/*.md`). If you don't |
+|                 |          |        | specify a file extension *all* files will be ran against   |
+|                 |          |        | validation tests.                                          |
+
+An example `shisito.yml` file:
+
+```
+filepattern: content/posts/*.md
+```
+
+NOTE: currently the functionality here is extremely limited and needs tons of work.
