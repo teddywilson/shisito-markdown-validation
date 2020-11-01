@@ -29,7 +29,8 @@ def rglob_exists(rglob_path):
 
 def validate_shisito_config_exists():
   if not rglob_exists(SHISITO_CONFIG_PATH):
-    fail('Shisito config not found')
+    fail("""Shisito config not found! A shisito.yml config must be defined in your project's root 
+            directory.""")
 
 def main():
   print('🌶 Running Shisito markdown valiation tests')
