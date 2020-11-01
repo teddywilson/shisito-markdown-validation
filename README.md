@@ -59,7 +59,6 @@ If you have any example projects to offer, please add them here!
 
 ### Contributing
 Since Shisito has only just begun development, there is tons of work to do! The main focus at the time being is adding more functionality to the markdown validation test runner. Some of these tasks include the following:
-- Validating markdown files exist (lol this is obviously step 1)
 - Field and type validation
 - Type validation beyond primitives – e.g., phone numbers, emails, etc.
 - Literally anything!
