@@ -47,15 +47,19 @@ An example `shisito.yml` file:
 
 ```
 collections:
-  - 
-    filepattern: posts/*
-  - 
+  -
     filepattern: authors/*
+    fields:
+      - name: str    
   -
     filepattern: events/*
+    fields:
+      - name: str
 ```
 
-TODO: document fields instead of providing a sample file.
+TODO: document fields and types instead of providing a sample file.
+
+Supported types: `[str]`
 
 ### Examples
 Follow the main example project for a better overview of how Shisito works end to end here: https://github.com/teddywilson/example-shisito-project.

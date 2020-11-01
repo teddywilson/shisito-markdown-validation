@@ -10,13 +10,15 @@ import yaml
 
 from pathlib import Path
 
-# TODO(teddywilson) make this configurable
 SHISITO_CONFIG_DIR = '/github/workspace'
 SHISITO_CONFIG_FILENAME = 'shisito.yml'
 SHISITO_CONFIG_PATH = os.path.join(SHISITO_CONFIG_DIR, SHISITO_CONFIG_FILENAME)
 
 KEY_COLLECTIONS = 'collections'
+KEY_FIELDS = 'fields'
 KEY_FILEPATTERN = 'filepattern'
+KEY_TYPE_STR = 'str'
+KEY_TYPE_INT = 'int'
 
 SHISITO_CONFIG_REQUIRED_KEYS = {
   KEY_COLLECTIONS: list,
@@ -24,6 +26,11 @@ SHISITO_CONFIG_REQUIRED_KEYS = {
 
 COLLECTION_REQUIRED_KEYS = {
   KEY_FILEPATTERN: str,
+}
+
+SUPPORTED_TYPES = {
+  KEY_TYPE_STR: str,
+  KEY_TYPE_INT: int
 }
 
 def success(test_name):
@@ -73,23 +80,43 @@ def validate_shisito_config():
       return config   
 
 def test_files_exist(config):
-  """Validates that files exist at the provided filepattern."""
+  """Validates that files exist for each defined collection."""
   for collection in config[KEY_COLLECTIONS]:
     filepattern = collection[KEY_FILEPATTERN]
     files = [file for file in Path(SHISITO_CONFIG_DIR).rglob(filepattern)] 
-    _, counts = np.unique([file.parent for file in files ], return_counts=True)
+    _, counts = np.unique([file.parent for file in files ], return_counts=True)    
     if counts.sum() == 0:
       fail('Test files exist failed for path: %s' % filepattern)
     else:
       success('%d file(s) found at path: %s' % (counts.sum(), filepattern))
+
+def test_validate_types(config):
+  """Validates fields and corresponding types for each collection."""
+  for collection in config[KEY_COLLECTIONS]:
+    fields = collection[KEY_FIELDS]
+    required_keys = {}
+    # These will only ever be a 1-element dict
+    for field in fields:
+      field_key = next(iter(field))
+      field_val = field[field_key]
+      # Validate the type is supported
+      if field_val not in SUPPORTED_TYPES:
+        fail('Type %s for field %s not currently supported.' % (field_val, field_key))
+      required_keys[field_key] = SUPPORTED_TYPES[field_val]
+    files = [file for file in Path(SHISITO_CONFIG_DIR).rglob(collection[KEY_FILEPATTERN])] 
+    for file in files:
+      with open(file, 'r') as stream:
+        docs = yaml.safe_load_all(stream)
+        for doc in filter(None, docs):
+          validate_document_has_allowlisted_keys(doc, file, required_keys);
+          success('Validated fields and types for file: %s' % file)
 
 def main():
   print('🌶' +  ' ' + 'Running Shisito markdown valiation tests')
 
   config = validate_shisito_config()
   test_files_exist(config)
-
-  # TODO(teddywilson) field and type validation tests
+  test_validate_types(config)
 
   print('😇 All tests pass!')
   sys.exit(0)
