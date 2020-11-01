@@ -19,6 +19,7 @@ KEY_FIELDS = 'fields'
 KEY_FILEPATTERN = 'filepattern'
 KEY_TYPE_STR = 'str'
 KEY_TYPE_INT = 'int'
+KEY_TYPE_LIST = 'list'
 
 SHISITO_CONFIG_REQUIRED_KEYS = {
   KEY_COLLECTIONS: list,
@@ -30,7 +31,8 @@ COLLECTION_REQUIRED_KEYS = {
 
 SUPPORTED_TYPES = {
   KEY_TYPE_STR: str,
-  KEY_TYPE_INT: int
+  KEY_TYPE_INT: int,
+  KEY_TYPE_LIST : list,
 }
 
 def success(test_name):

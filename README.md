@@ -15,8 +15,6 @@
   </a>
 </p>
 
-NOTE: currently the functionality here is extremely limited and needs tons of work.
-
 ### Getting started
 
 1. ** Add Shisito to your Github workflow. **
@@ -56,11 +54,11 @@ collections:
     fields:
       - name: str
       - max_capacity: int
+      - hosts: list
 ```
 
-TODO: document fields and types instead of providing a sample file.
-
-Supported types: `[str, int]`
+Supported types: `[str, int, list]`
+NOTE: list type validation (e.g., `list(int)`) is not supported currently, but will be soon.
 
 ### Examples
 Follow the main example project for a better overview of how Shisito works end to end here: https://github.com/teddywilson/example-shisito-project.
