@@ -8,18 +8,23 @@ import re
 import sys
 import yaml
 
+from pathlib import Path
+
 # TODO(teddywilson) make this configurable
-SHISITO_CONFIG_PATH = "/github/workspace/shisito.yml"
+SHISITO_CONFIG_DIR = '/github/workspace'
+SHISITO_CONFIG_FILENAME = 'shisito.yml'
+SHISITO_CONFIG_PATH = os.path.join(SHISITO_CONFIG_DIR, SHISITO_CONFIG_FILENAME)
+
+KEY_FILEPATTERN = 'filepattern'
 
 # TODO(teddywilson) build out more options
 SHISITO_CONFIG_REQUIRED_KEYS = {
-  'filepattern': str,
+  KEY_FILEPATTERN: str,
 }
 
 def success(test_name):
   """Prints success result for a test name"""
   print('✅' + ' ' + test_name)
-
 
 def fail(error_message):
   """Fails test runner with a given error message"""
@@ -58,15 +63,27 @@ def validate_shisito_config():
   with open(SHISITO_CONFIG_PATH, 'r') as stream:
     docs = yaml.safe_load_all(stream)
     for doc in filter(None, docs):
-      validate_document_has_allowlisted_keys(doc, SHISITO_CONFIG_PATH, SHISITO_CONFIG_REQUIRED_KEYS);  
-      # TODO(teddywilson) return mapping of required keys and values          
+      validate_document_has_allowlisted_keys(doc, SHISITO_CONFIG_PATH, SHISITO_CONFIG_REQUIRED_KEYS);
+      config = {}
+      for key in SHISITO_CONFIG_REQUIRED_KEYS:
+        config[key] = doc[key]
+      return config        
+
+def test_files_exist(config):
+  """Validates that files exist at the provided filepattern."""
+  files = [file for file in Path(SHISITO_CONFIG_DIR).rglob(config[KEY_FILEPATTERN])] 
+  _, counts = np.unique([file.parent for file in files ], return_counts=True)
+  if counts.sum() == 0:
+    fail('Test files exist failed for path: %s' % config[KEY_FILEPATTERN])  
 
 def main():
-  print('🌶 Running Shisito markdown valiation tests')
+  print('🌶' +  ' ' + 'Running Shisito markdown valiation tests')
 
-  print('🔎 Validating Shisito config')
-  validate_shisito_config()
-  success('Shisito config validated')
+  config = validate_shisito_config()
+  success('validate_shisito_config()')
+
+  test_files_exist(config)
+  success('test_files_exist()')
 
   # TODO(teddywilson) files exists test
   # TODO(teddywilson) field and type validation tests
