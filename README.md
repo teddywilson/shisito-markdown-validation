@@ -15,9 +15,19 @@
   </a>
 </p>
 
+Shisito is a Github action used for validating markdown/YAML files as part of your CI pipeline.
+
+- **Build static websites, safer.** Use frameworks like [GatsbyJS](https://github.com/gatsbyjs/gatsby)
+  and [https://jekyllrb.com/](https://jekyllrb.com/) to host your content without having to
+  worry about corrupted markdown files upond deployment.
+
+- **Be alerted of errors before you deploy.** Since Shisito is fully integration with Github
+  actions, you can add markdown/YAML validation to your CI pipeline easily, for free, and be
+  alerted on critical errors before your content goes live.
+
 ### Getting started
 
-1. ** Add Shisito to your Github workflow. **
+1. ** First, dd Shisito to your Github workflow. **
 
 The first step will be to add the Shisito action to your [Github workflow](https://docs.github.com/en/free-pro-team@latest/actions/learn-github-actions/introduction-to-github-actions).
 
