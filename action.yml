@@ -1,0 +1,5 @@
+name: 'Shisito'
+description: 'Shisito Github Action'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
