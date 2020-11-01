@@ -15,14 +15,14 @@ SHISITO_CONFIG_DIR = '/github/workspace'
 SHISITO_CONFIG_FILENAME = 'shisito.yml'
 SHISITO_CONFIG_PATH = os.path.join(SHISITO_CONFIG_DIR, SHISITO_CONFIG_FILENAME)
 
+KEY_COLLECTIONS = 'collections'
 KEY_FILEPATTERN = 'filepattern'
-KEY_FILEPATTERNS = 'filepatterns'
 
 SHISITO_CONFIG_REQUIRED_KEYS = {
-  KEY_FILEPATTERNS: list,
+  KEY_COLLECTIONS: list,
 }
 
-FILEPATTERN_REQUIRED_KEYS = {
+COLLECTION_REQUIRED_KEYS = {
   KEY_FILEPATTERN: str,
 }
 
@@ -74,14 +74,14 @@ def validate_shisito_config():
 
 def test_files_exist(config):
   """Validates that files exist at the provided filepattern."""
-  for filepattern in config[KEY_FILEPATTERNS]:
-    pattern = filepattern[KEY_FILEPATTERN]
-    files = [file for file in Path(SHISITO_CONFIG_DIR).rglob(pattern)] 
+  for collection in config[KEY_COLLECTIONS]:
+    filepattern = collection[KEY_FILEPATTERN]
+    files = [file for file in Path(SHISITO_CONFIG_DIR).rglob(filepattern)] 
     _, counts = np.unique([file.parent for file in files ], return_counts=True)
     if counts.sum() == 0:
-      fail('Test files exist failed for path: %s' % pattern)
+      fail('Test files exist failed for path: %s' % filepattern)
     else:
-      success('%d file(s) found at path: %s' % (counts.sum(), pattern))
+      success('%d file(s) found at path: %s' % (counts.sum(), filepattern))
 
 def main():
   print('🌶' +  ' ' + 'Running Shisito markdown valiation tests')

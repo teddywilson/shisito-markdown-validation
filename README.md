@@ -62,6 +62,23 @@ Follow the main example project for a better overview of how Shisito works end t
 
 If you have any example projects to offer, please add them here!
 
+### Testing
+Currently testing is pretty limited, but I am working on it. For the time being, to test out new functionality, clone the sample project, and run it using a local build of Shisito.
+
+For example:
+```
+git clone https://github.com/teddywilson/example-shisito-project
+
+cd shisito
+Docker build -t shisito .
+
+Docker run \
+  -v /Path/to/example-shisito-project:/github/workspace \
+  shisito
+```
+
+Any help with testing/setup would be greatly appreciated!
+
 ### Contributing
 Since Shisito has only just begun development, there is tons of work to do! The main focus at the time being is adding more functionality to the markdown validation test runner. Some of these tasks include the following:
 - Field and type validation
