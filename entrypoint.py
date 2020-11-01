@@ -14,7 +14,6 @@ SHISITO_CONFIG_PATH = "/github/workspace/shisito.yml"
 # TODO(teddywilson) build out more options
 SHISITO_CONFIG_REQUIRED_KEYS = {
   'filepattern': str,
-  'testinvalid': str
 }
 
 def success(test_name):
@@ -36,19 +35,19 @@ def validate_document_has_allowlisted_keys(doc, filepath, required_keys=[], opti
     if key not in doc:
       required_keys_not_found.append(key)
     elif not isinstance(doc[key], required_keys[key]):
-      fail('in file %s required key %s has invalid type %s should be %s' % (
+      fail('Error parsing file: %s. Required key %s has invalid type %s which should be %s' % (
         filepath, key, type(doc[key]), required_keys[key]))
       
   if required_keys_not_found:
     prefixed_required_keys_not_found = ["🔑 ~> " + key for key in required_keys_not_found] 
-    fail('in file %s required keys not found:\n%s' % (
+    fail('Error parsing file: %s. Required keys not found:\n%s' % (
       filepath, "\n".join(prefixed_required_keys_not_found)))
 
   for key in optional_keys:
     if key not in doc:
       continue
     elif not isinstance(doc[key], optional_keys[key]):
-      fail('in file %s optional key %s has invalid type %s should be %s' % (
+      fail('Error parsing file: %s. Optional key %s has invalid type %s which should be %s' % (
         filepath, key, type(doc[key]), optional_keys[key]))  
 
 def validate_shisito_config():
@@ -59,15 +58,19 @@ def validate_shisito_config():
   with open(SHISITO_CONFIG_PATH, 'r') as stream:
     docs = yaml.safe_load_all(stream)
     for doc in filter(None, docs):
-      validate_document_has_allowlisted_keys(doc, SHISITO_CONFIG_PATH, SHISITO_CONFIG_REQUIRED_KEYS);            
+      validate_document_has_allowlisted_keys(doc, SHISITO_CONFIG_PATH, SHISITO_CONFIG_REQUIRED_KEYS);  
+      # TODO(teddywilson) return mapping of required keys and values          
 
 def main():
   print('🌶 Running Shisito markdown valiation tests')
 
+  print('🔎 Validating Shisito config')
   validate_shisito_config()
   success('Shisito config validated')
 
-  # TODO(teddywilson) validate config and run tests
+  # TODO(teddywilson) files exists test
+  # TODO(teddywilson) field and type validation tests
+
   print('😇 All tests pass!')
   sys.exit(0)
 
