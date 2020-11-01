@@ -70,6 +70,8 @@ collections:
 Supported types: `[str, int, list]`
 NOTE: list type validation (e.g., `list(int)`) is not supported currently, but will be soon.
 
+The `filepattern` string follows standard Unix file expansion. E.g., (files/*, content/*/*.md, files/*.markdown). If you don't specify a file extension all files in the matching directory will be ran against validation tests.
+
 ### Examples
 Follow the main example project for a better overview of how Shisito works end to end here: https://github.com/teddywilson/example-shisito-project.
 
