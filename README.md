@@ -35,7 +35,8 @@ jobs:
     name: build-library
     steps:
       - uses: actions/checkout@v1
-      - uses: teddywilson/shisito@v0.0.2
+      # Find most recent version at: https://github.com/teddywilson/shisito/releases
+      - uses: teddywilson/shisito@{VERSION}
 ```
 
 2. ** Define your Shisito configuration file. **
