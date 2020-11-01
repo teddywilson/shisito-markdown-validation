@@ -15,6 +15,8 @@
   </a>
 </p>
 
+NOTE: currently the functionality here is extremely limited and needs tons of work.
+
 ### Getting started
 
 1. ** Add Shisito to your Github workflow. **
@@ -50,4 +52,12 @@ An example `shisito.yml` file:
 filepattern: content/posts/*.md
 ```
 
-NOTE: currently the functionality here is extremely limited and needs tons of work.
+### Examples
+Follow the main example project for a better overview of how Shisito works end to end here: https://github.com/teddywilson/example-shisito-project. If you have any example projects to offer, please add them here!
+
+### Contributing
+Since Shisito has only just begun development, there is tons of work to do! The main focus at the time being is adding more functionality to the markdown validation test runner. Some of these tasks include the following:
+- Validating markdown files exist (lol this is obviously step 1)
+- Field and type validation
+- Type validation beyond primitives – e.g., phone numbers, emails, etc.
+- Literally anything!
