@@ -16,9 +16,13 @@ SHISITO_CONFIG_FILENAME = 'shisito.yml'
 SHISITO_CONFIG_PATH = os.path.join(SHISITO_CONFIG_DIR, SHISITO_CONFIG_FILENAME)
 
 KEY_FILEPATTERN = 'filepattern'
+KEY_FILEPATTERNS = 'filepatterns'
 
-# TODO(teddywilson) build out more options
 SHISITO_CONFIG_REQUIRED_KEYS = {
+  KEY_FILEPATTERNS: list,
+}
+
+FILEPATTERN_REQUIRED_KEYS = {
   KEY_FILEPATTERN: str,
 }
 
@@ -58,8 +62,7 @@ def validate_document_has_allowlisted_keys(doc, filepath, required_keys=[], opti
 def validate_shisito_config():
   """Validates Shisito configuration file"""
   if not os.path.isfile(SHISITO_CONFIG_PATH):
-    fail("""Shisito config not found! A shisito.yml config must be defined in your project's root 
-            directory.""")
+    fail("""Shisito config not found! A shisito.yml config must be defined in your project's root directory.""")
   with open(SHISITO_CONFIG_PATH, 'r') as stream:
     docs = yaml.safe_load_all(stream)
     for doc in filter(None, docs):
@@ -67,25 +70,25 @@ def validate_shisito_config():
       config = {}
       for key in SHISITO_CONFIG_REQUIRED_KEYS:
         config[key] = doc[key]
-      return config        
+      return config   
 
 def test_files_exist(config):
   """Validates that files exist at the provided filepattern."""
-  files = [file for file in Path(SHISITO_CONFIG_DIR).rglob(config[KEY_FILEPATTERN])] 
-  _, counts = np.unique([file.parent for file in files ], return_counts=True)
-  if counts.sum() == 0:
-    fail('Test files exist failed for path: %s' % config[KEY_FILEPATTERN])  
+  for filepattern in config[KEY_FILEPATTERNS]:
+    pattern = filepattern[KEY_FILEPATTERN]
+    files = [file for file in Path(SHISITO_CONFIG_DIR).rglob(pattern)] 
+    _, counts = np.unique([file.parent for file in files ], return_counts=True)
+    if counts.sum() == 0:
+      fail('Test files exist failed for path: %s' % pattern)
+    else:
+      success('%d file(s) found at path: %s' % (counts.sum(), pattern))
 
 def main():
   print('🌶' +  ' ' + 'Running Shisito markdown valiation tests')
 
   config = validate_shisito_config()
-  success('validate_shisito_config()')
-
   test_files_exist(config)
-  success('test_files_exist()')
 
-  # TODO(teddywilson) files exists test
   # TODO(teddywilson) field and type validation tests
 
   print('😇 All tests pass!')

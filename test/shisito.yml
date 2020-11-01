@@ -1,1 +1,3 @@
-filepattern: files/*
+filepatterns:
+  - 
+    filepattern: files/*
