@@ -42,10 +42,7 @@ In the root directory of your project, you must define a `shisito.yml` file. Thi
 
 | Key             | Required | Type   | Description                                                |
 | --------------- | -------- | ------ |------------------------------------------------------------|
-| filepattern     | yes      | string | Filepattern string which follows standard Unix file        |
-|                 |          |        | expansion. E.g., (`files/*`, `files/*/*.md`). If you don't |
-|                 |          |        | specify a file extension *all* files will be ran against   |
-|                 |          |        | validation tests.                                          |
+| filepattern     | yes      | string | Filepattern string which follows standard Unix file expansion. E.g., (`files/*`, `files/*/*.md`). If you don't specify a file extension *all* files will be ran against validation tests.|
 
 An example `shisito.yml` file:
 
