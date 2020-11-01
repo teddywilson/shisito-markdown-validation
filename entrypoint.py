@@ -11,6 +11,12 @@ import yaml
 # TODO(teddywilson) make this configurable
 SHISITO_CONFIG_PATH = "/github/workspace/shisito.yml"
 
+# TODO(teddywilson) build out more options
+SHISITO_CONFIG_REQUIRED_KEYS = {
+  'filepattern': str,
+  'testinvalid': str
+}
+
 def success(test_name):
   """Prints success result for a test name"""
   print('✅' + ' ' + test_name)
@@ -21,16 +27,45 @@ def fail(error_message):
   print('❌' + ' ' + error_message)
   sys.exit(1)
 
-def validate_shisito_config_exists():
+def validate_document_has_allowlisted_keys(doc, filepath, required_keys=[], optional_keys=[]):
+  """Validates that a document contains all of the necessary keys and correct corresponding types"""
+  required_keys_not_found = []
+  invalid_types = []
+
+  for key in required_keys:
+    if key not in doc:
+      required_keys_not_found.append(key)
+    elif not isinstance(doc[key], required_keys[key]):
+      fail('in file %s required key %s has invalid type %s should be %s' % (
+        filepath, key, type(doc[key]), required_keys[key]))
+      
+  if required_keys_not_found:
+    prefixed_required_keys_not_found = ["🔑 ~> " + key for key in required_keys_not_found] 
+    fail('in file %s required keys not found:\n%s' % (
+      filepath, "\n".join(prefixed_required_keys_not_found)))
+
+  for key in optional_keys:
+    if key not in doc:
+      continue
+    elif not isinstance(doc[key], optional_keys[key]):
+      fail('in file %s optional key %s has invalid type %s should be %s' % (
+        filepath, key, type(doc[key]), optional_keys[key]))  
+
+def validate_shisito_config():
+  """Validates Shisito configuration file"""
   if not os.path.isfile(SHISITO_CONFIG_PATH):
     fail("""Shisito config not found! A shisito.yml config must be defined in your project's root 
             directory.""")
+  with open(SHISITO_CONFIG_PATH, 'r') as stream:
+    docs = yaml.safe_load_all(stream)
+    for doc in filter(None, docs):
+      validate_document_has_allowlisted_keys(doc, SHISITO_CONFIG_PATH, SHISITO_CONFIG_REQUIRED_KEYS);            
 
 def main():
   print('🌶 Running Shisito markdown valiation tests')
 
-  validate_shisito_config_exists()
-  success('Shisito config found')
+  validate_shisito_config()
+  success('Shisito config validated')
 
   # TODO(teddywilson) validate config and run tests
   print('😇 All tests pass!')
