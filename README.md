@@ -55,11 +55,12 @@ collections:
     filepattern: events/*
     fields:
       - name: str
+      - max_capacity: int
 ```
 
 TODO: document fields and types instead of providing a sample file.
 
-Supported types: `[str]`
+Supported types: `[str, int]`
 
 ### Examples
 Follow the main example project for a better overview of how Shisito works end to end here: https://github.com/teddywilson/example-shisito-project.
