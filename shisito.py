@@ -52,16 +52,16 @@ def fail(error_message):
   sys.exit(1)
 
 
-def run_test(test):
+def run_test(config, test):
   """Executes a test and prints out a success message if it passes"""
-  test()
+  test(config)
   success(test.__name__)  
 
 
-def run_tests(tests):
+def run_tests(config, tests):
   """Executes an array of tests"""
   for test in tests:
-    run_test(test)  
+    run_test(config, test)  
 
 
 def validate_document_has_allowlisted_keys(doc, filepath, required_keys=[], optional_keys=[]):
@@ -141,14 +141,13 @@ def main():
   print('🌶' +  ' ' + 'Running Shisito markdown valiation tests')
 
   config = validate_shisito_config()
-  run_tests([
-    test_files_exist(config),
-    test_validate_types(config)
+  run_tests(config, [
+    test_files_exist,
+    test_validate_types
   ])
 
   print('😇 All tests pass!')
   sys.exit(0)
-
 
 if __name__ == "__main__":
     main()
