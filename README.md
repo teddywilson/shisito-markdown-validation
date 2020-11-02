@@ -64,9 +64,9 @@ That's it!
 
 ## Documentation
 
-| Field | type | description |
+| Field | Type | Description |
 |-------|------|-------------|
-|collecionts|list|Top-level list of file collections you want to run tests against|
+|collections|list|Top-level list of file collections you want to run tests against|
 |filepattern|string|Filepattern that follows standard Unix file expansion (e.g., `files/*.markdown`, `content/posts/*[1-9].yml`, etc.)|
 |fields|list|Individual fields, and their corresponding types, within a collection. Currently, `str`, `int`, and `list` are supported|
 
