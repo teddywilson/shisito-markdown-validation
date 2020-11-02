@@ -189,7 +189,6 @@ def test_validate_types(config):
         for doc in filter(None, docs):
           validate_document_has_allowlisted_keys(
             doc, file, required_keys, optional_keys, required_values)
-          success('Validated fields and types for file: %s' % file)
 
 
 def test_filename_regex(config):
