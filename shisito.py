@@ -136,7 +136,7 @@ def test_files_exist(config):
 def test_validate_types(config):
   """Validates fields and corresponding types for each collection."""
   for collection in config[KEY_COLLECTIONS]:
-    fields = collection[schema]
+    fields = collection[KEY_SCHEMA]
     required_keys = {}
     # These will only ever be a 1-element dict
     for field in fields:
