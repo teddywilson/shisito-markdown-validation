@@ -4,7 +4,7 @@
   </a>
 </p>
 <h1 align="center">
-  Shisito
+  Shisito Markdown Validation
 </h1>
 <h3 align="center">
   Sweet and spicy markdown validation tests.
