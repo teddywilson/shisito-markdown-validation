@@ -115,9 +115,9 @@ In essence you will define a `collections` list that contains `filepattern` stri
 NOTE: currently, Shisito offers one level of depth (or two if `list` is used). We are working on supported as many levels of depth as you need.
 
 ## Examples
-Follow the main example project for a better overview of how Shisito works end to end here: https://github.com/teddywilson/example-shisito-project.
+Follow the main example project for a better overview of how Shisito works end to end here: https://github.com/teddywilson/example-shisito-project. You can also refer to the [integration tests](https://github.com/teddywilson/shisito-markdown-validation/tree/main/integration), which basically emulates a standalone project.
 
-If you have any example projects to offer, please add them here!
+If you have any other example projects to offer, please add them here!
 
 - [Clothesline Recordings Website](https://github.com/teddywilson/clothesline-recordings)
 
