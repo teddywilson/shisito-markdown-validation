@@ -1,5 +1,5 @@
 name: 'Shisito Markdown Validation'
-description: 'Simple and rich markdown field, type, and formatting validation'
+description: '🌶️ Simple and rich markdown field, type, and formatting validation'
 
 runs:
   using: 'docker'
