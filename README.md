@@ -57,7 +57,7 @@ collections:
       - name:
         - type: str    
   -
-    filepattern: events/*
+    filepattern: events/*/*/[1-9].markdown
     schema:
       - name:
         - type: str
