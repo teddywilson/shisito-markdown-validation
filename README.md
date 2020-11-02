@@ -68,7 +68,7 @@ collections:
         - value: author
       - url:
         - type: str
-        - unqie: true
+        - unique: true
   -
     # Collection of files representing events.
     filepattern: events/*/*/[1-9].markdown
@@ -83,7 +83,7 @@ collections:
         - type: list
       - url:
         - type: str
-        - unqie: true        
+        - unique: true        
 ```
 
 An example `.md` file, `authors/james-joyce.md`:
