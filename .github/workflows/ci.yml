@@ -18,4 +18,4 @@ jobs:
       - name: integration-tests
         uses: docker://docker
         with:
-          args: docker run -v /home/runner/work/shisito-markdown-validation/shisito-markdown-validation/test:/github/workspace shisito:latest RUN          
+          args: docker run -v /home/runner/work/shisito-markdown-validation/shisito-markdown-validation/integration:/github/workspace shisito:latest RUN          
