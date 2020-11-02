@@ -211,7 +211,7 @@ def test_unique_fields(config):
     filepattern = collection[KEY_FILEPATTERN]
     fields = collection[KEY_SCHEMA]
     unique_fields = set()
-    visited_fields = {}
+    visited_unique_fields = {}
     for field in fields:
       field_name, field_meta = get_field_meta_or_fail(field, filepattern)
       if KEY_UNIQUE in field_meta and field_meta[KEY_UNIQUE] is True:
@@ -222,10 +222,10 @@ def test_unique_fields(config):
         docs = yaml.safe_load_all(stream)
         for doc in filter(None, docs):
             for unique_field in unique_fields:
-              if unique_field in doc and unique_field in visited_fields:
+              if unique_field in doc and doc[unique_field] in visited_unique_fields:
                 fail('Unique field %s found in file %s already present in file %s' % (
                   unique_field, file, visited_fields[unique_field]))
-              visited_fields[unique_field] = file
+              visited_unique_fields[doc[unique_field]] = file
 
 
 
