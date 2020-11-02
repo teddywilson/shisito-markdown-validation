@@ -1,0 +1,11 @@
+collections:
+  -
+    filepattern: content/authors/*.md
+    fields:
+      - name: str
+  -
+    filepattern: content/books/*.md
+    fields:
+      - name: str
+      - author: str
+
