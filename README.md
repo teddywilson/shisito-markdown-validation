@@ -54,7 +54,8 @@ collections:
   -
     # Collection of files representing authors.
     filepattern: authors/*
-    # If files are found in authors/ that do not meet this criteria, and error will be thrown.
+    # If files are found in authors/ that do not meet the following regex criteria, and error will be thrown.
+    # This field is totally optional, as you will see below.
     filename_regex: ^[a-z-]*\.md    
     schema:
       - name:
