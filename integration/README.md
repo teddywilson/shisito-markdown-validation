@@ -7,6 +7,5 @@ To run locally:
 Docker build -t shisito .
 Docker run \
   -v /Path/to/shisito/integration:/github/workspace \
-  shisito \
-  RUN
+  shisito
 ```
