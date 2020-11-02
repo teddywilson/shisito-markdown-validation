@@ -121,6 +121,7 @@ def validate_config(path):
       return config   
   fail('Corrupted config file!', ERROR_CODE_CORRUPTED_FILE)
 
+
 def test_files_exist(config):
   """Validates that files exist for each defined collection."""
   for collection in config[KEY_COLLECTIONS]:
