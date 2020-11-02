@@ -11,7 +11,11 @@ jobs:
         uses: docker://docker
         with:
           args: docker build . --tag=shisito:latest
-      - name: Test
+      - name: unit-tests
         uses: docker://docker
         with:
-          args: docker run -v /home/runner/work/shisito-markdown-validation/shisito-markdown-validation/test:/github/workspace shisito:latest          
+          args: docker run shisito:latest TEST           
+      - name: integration-tests
+        uses: docker://docker
+        with:
+          args: docker run -v /home/runner/work/shisito-markdown-validation/shisito-markdown-validation/test:/github/workspace shisito:latest RUN          

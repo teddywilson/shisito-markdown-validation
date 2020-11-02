@@ -89,11 +89,11 @@ def validate_document_has_allowlisted_keys(doc, filepath, required_keys=[], opti
         filepath, key, type(doc[key]), optional_keys[key]))  
 
 
-def validate_shisito_config():
+def validate_shisito_config(path):
   """Validates Shisito configuration file"""
-  if not os.path.isfile(SHISITO_CONFIG_PATH):
+  if not os.path.isfile(path):
     fail("""Shisito config not found! A shisito.yml config must be defined in your project's root directory.""")
-  with open(SHISITO_CONFIG_PATH, 'r') as stream:
+  with open(path, 'r') as stream:
     docs = yaml.safe_load_all(stream)
     for doc in filter(None, docs):
       validate_document_has_allowlisted_keys(doc, SHISITO_CONFIG_PATH, SHISITO_CONFIG_REQUIRED_KEYS);
@@ -140,7 +140,7 @@ def test_validate_types(config):
 def main():
   print('🌶' +  ' ' + 'Running Shisito markdown valiation tests')
 
-  config = validate_shisito_config()
+  config = validate_shisito_config(SHISITO_CONFIG_PATH)
   run_tests(config, [
     test_files_exist,
     test_validate_types
