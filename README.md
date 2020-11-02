@@ -75,7 +75,7 @@ An example `.md` file, `authors/james-joyce.md`:
 ```
 ---
 name: James Joyrce
-from: Rathgar, Ireland
+birthplace: Rathgar, Ireland
 ---
 ```
 
