@@ -52,17 +52,17 @@ An example `shisito.yml` file:
 collections:
   -
     filepattern: authors/*
-    fields:
+    schema:
       - name: str    
   -
     filepattern: events/*
-    fields:
+    schema:
       - name: str
       - max_capacity: int
       - hosts: list
 ```
 
-That's it!
+In essence you will define a `collections` list that contains `filepattern` strings and `schema` definitions for files which match said pattern. Upon execution, Shosito will validate that matching files adhere to the defined schema – that's it!
 
 ## Documentation
 
@@ -70,7 +70,7 @@ That's it!
 |-------|------|-------------|
 |collections|list|Top-level list of file collections you want to run tests against|
 |filepattern|string|Filepattern that follows standard Unix file expansion (e.g., `files/*.markdown`, `content/posts/*[1-9].yml`, etc.)|
-|fields|list|Individual fields, and their corresponding types, within a collection. Currently, `str`, `int`, and `list` are supported|
+|schema|list|Individual fields, and their corresponding types, within a collection. Currently, `str`, `int`, and `list` are supported|
 
 NOTE: currently, Shisito offers one level of depth (or two if `list` is used). We are working on supported as many levels of depth as you need.
 
