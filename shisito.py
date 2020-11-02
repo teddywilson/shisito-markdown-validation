@@ -188,12 +188,16 @@ def main():
   print('🌶' +  ' ' + 'Running Shisito markdown valiation tests')
 
   # TODO(teddywilson) validate collections
-  config = validate_config(SHISITO_CONFIG_PATH)
-  run_tests(config, [
-    test_files_exist,
-    test_validate_types,
-    test_filename_regex
-  ])
+  try:
+    config = validate_config(SHISITO_CONFIG_PATH)
+    run_tests(config, [
+      test_files_exist,
+      test_validate_types,
+      test_filename_regex
+    ])
+  except ShisitoTestFailure as f:
+    print(f.message)
+    sys.exit(1)  
 
   print('😇 All tests pass!')
   sys.exit(0)
