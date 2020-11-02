@@ -19,6 +19,8 @@ SHISITO_CONFIG_PATH = os.path.join(SHISITO_CONFIG_DIR, SHISITO_CONFIG_FILENAME)
 KEY_COLLECTIONS = 'collections'
 KEY_SCHEMA = 'schema'
 KEY_FILEPATTERN = 'filepattern'
+KEY_REQUIRED = 'required'
+KEY_TYPE = 'type'
 KEY_TYPE_STR = 'str'
 KEY_TYPE_INT = 'int'
 KEY_TYPE_LIST = 'list'
@@ -121,6 +123,7 @@ def validate_config(path):
       return config   
   fail('Corrupted config file!', ERROR_CODE_CORRUPTED_FILE)
 
+
 def test_files_exist(config):
   """Validates that files exist for each defined collection."""
   for collection in config[KEY_COLLECTIONS]:
@@ -136,17 +139,30 @@ def test_files_exist(config):
 def test_validate_types(config):
   """Validates fields and corresponding types for each collection."""
   for collection in config[KEY_COLLECTIONS]:
+    filepattern = collection[KEY_FILEPATTERN]    
     fields = collection[KEY_SCHEMA]
     required_keys = {}
+    optional_keys = {}
     # These will only ever be a 1-element dict
     for field in fields:
-      field_key = next(iter(field))
-      field_val = field[field_key]
+      field_name = next(iter(field))
+      if not isinstance(field[field_name], list):
+        fail('Field `%s` metadata for filepattern %s must be in a list format' % (
+          field_name, filepattern))
+      field_meta = dict()
+      for meta in field[field_name]:
+        field_meta.update(meta)
+      if KEY_TYPE not in field_meta:
+        fail('Field `%s` in filepattern %s must have a type' % (field_name, filepattern))
       # Validate the type is supported
-      if field_val not in SUPPORTED_TYPES:
-        fail('Type %s for field %s not currently supported.' % (field_val, field_key))
-      required_keys[field_key] = SUPPORTED_TYPES[field_val]
-    files = [file for file in Path(SHISITO_CONFIG_DIR).rglob(collection[KEY_FILEPATTERN])] 
+      if field_meta[KEY_TYPE] not in SUPPORTED_TYPES:
+        fail('Type %s for field %s not currently supported.' % (field_meta[KEY_TYPE], field_name))
+      # Determine whether the field is required or not  
+      if KEY_REQUIRED not in field_meta or field_meta[KEY_REQUIRED] is True:
+        required_keys[field_name] = SUPPORTED_TYPES[field_meta[KEY_TYPE]]
+      else:
+        optional_keys[field_name] = SUPPORTED_TYPES[field_meta[KEY_TYPE]]
+    files = [file for file in Path(SHISITO_CONFIG_DIR).rglob(filepattern)] 
     for file in files:
       with open(file, 'r') as stream:
         docs = yaml.safe_load_all(stream)

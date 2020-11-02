@@ -53,13 +53,18 @@ collections:
   -
     filepattern: authors/*
     schema:
-      - name: str    
+      - name:
+        - type: str    
   -
     filepattern: events/*
     schema:
-      - name: str
-      - max_capacity: int
-      - hosts: list
+      - name:
+        - type: str
+      - max_capacity:
+        - type: int
+        - required: false
+      - hosts:
+        - type: list
 ```
 
 In essence you will define a `collections` list that contains `filepattern` strings and `schema` definitions for files which match said pattern. Upon execution, Shosito will validate that matching files adhere to the defined schema – that's it!
@@ -70,7 +75,9 @@ In essence you will define a `collections` list that contains `filepattern` stri
 |-------|------|-------------|
 |collections|list|Top-level list of file collections you want to run tests against|
 |filepattern|string|Filepattern that follows standard Unix file expansion (e.g., `files/*.markdown`, `content/posts/*[1-9].yml`, etc.)|
-|schema|list|Individual fields, and their corresponding types, within a collection. Currently, `str`, `int`, and `list` are supported|
+|schema|list|Individual fields, and their corresponding types, within a collection. Currently, `str`, `int`, and `list` are supported. If `required` is set to `false`, field existence is not required, however type checking is applied if existence is found; can be ommitted or set to `true`.|
+
+
 
 NOTE: currently, Shisito offers one level of depth (or two if `list` is used). We are working on supported as many levels of depth as you need.
 
