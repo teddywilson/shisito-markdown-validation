@@ -82,6 +82,7 @@ If you have any example projects to offer, please add them here!
 - [Clothesline Recordings Website](https://github.com/teddywilson/clothesline-recordings)
 
 ## Testing
+Currently testing infrastructure is lacking a bit, but for the time being, refer to the following to setup and run unit and integation tests. Personally, I prefer using Docker exclusively when interacting with Python, but hope to get around adding documentation for local pip setup.
 
 ### Unit Tests
 ```
