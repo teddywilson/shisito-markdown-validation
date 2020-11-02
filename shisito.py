@@ -41,15 +41,33 @@ SUPPORTED_TYPES = {
 }
 
 
+ERROR_CODE_DEFAULT=0
+ERROR_CODE_NOT_FOUND=1
+ERROR_CODE_CORRUPTED_FILE=2
+ERROR_CODE_MISSING_FIELDS=3
+
+
+class ShisitoTestFailure(Exception):
+    """Exception raised when Shisito validation fails.
+
+    Attributes:
+        code -- Error Code
+    """
+
+    def __init__(self, message, code=ERROR_CODE_DEFAULT):
+        self.code = code
+        self.message = message
+        super().__init__(self.message)
+
+
 def success(test_name):
   """Prints success result for a test name"""
   print('✅' + ' ' + test_name)
 
 
-def fail(error_message):
+def fail(error_message, code=ERROR_CODE_DEFAULT):
   """Fails test runner with a given error message"""
-  print('❌' + ' ' + error_message)
-  sys.exit(1)
+  raise ShisitoTestFailure('❌' + ' ' + error_message, code)
 
 
 def run_test(config, test):
@@ -89,10 +107,10 @@ def validate_document_has_allowlisted_keys(doc, filepath, required_keys=[], opti
         filepath, key, type(doc[key]), optional_keys[key]))  
 
 
-def validate_shisito_config(path):
+def validate_config(path):
   """Validates Shisito configuration file"""
   if not os.path.isfile(path):
-    fail("""Shisito config not found! A shisito.yml config must be defined in your project's root directory.""")
+    fail('Config not found!', ERROR_CODE_NOT_FOUND)
   with open(path, 'r') as stream:
     docs = yaml.safe_load_all(stream)
     for doc in filter(None, docs):
@@ -101,7 +119,7 @@ def validate_shisito_config(path):
       for key in SHISITO_CONFIG_REQUIRED_KEYS:
         config[key] = doc[key]
       return config   
-
+  fail('Corrupted config file!', ERROR_CODE_CORRUPTED_FILE)
 
 def test_files_exist(config):
   """Validates that files exist for each defined collection."""
@@ -140,7 +158,7 @@ def test_validate_types(config):
 def main():
   print('🌶' +  ' ' + 'Running Shisito markdown valiation tests')
 
-  config = validate_shisito_config(SHISITO_CONFIG_PATH)
+  config = validate_config(SHISITO_CONFIG_PATH)
   run_tests(config, [
     test_files_exist,
     test_validate_types
