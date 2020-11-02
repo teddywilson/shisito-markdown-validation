@@ -7,7 +7,7 @@ import shisito
 
 class TestValidateConfig(unittest.TestCase):
     def test_basicAssertion(self):
-        #shisito.validate_shisito_config('/tmp/config')
+        self.assertEqual(True, True)
         
 
 if __name__ == '__main__':
