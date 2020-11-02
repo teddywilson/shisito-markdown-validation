@@ -3,9 +3,9 @@
 import unittest
 import shisito
 
-class TestBasic(unittest.TestCase):
+class TestBasicAssertion(unittest.TestCase):
     def test_yep(self):
-        assertEquals(True, True);
+        self.assertEquals(True, True);
         
 
 if __name__ == '__main__':
