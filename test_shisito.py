@@ -11,6 +11,7 @@ from shisito import ERROR_CODE_NOT_FOUND
 from shisito import ERROR_CODE_CORRUPTED_FILE
 from shisito import ERROR_CODE_MISSING_FIELDS
 
+
 class TestValidateConfig(unittest.TestCase):
     """shisito.validate_config() tests"""
 
@@ -23,7 +24,6 @@ class TestValidateConfig(unittest.TestCase):
             self.fail('unexpected exception raised')
         else:
             self.fail('ExpectedException not raised')
-
 
     def test_emptyConfigThrowsException(self):
         config = open('/tmp/shisito.yml', 'w')
