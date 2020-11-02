@@ -19,3 +19,7 @@ collections:
       - date_published:
         - type: str
         - required: false
+      - page_layout:
+        - type: str
+        - required: false
+        - value: book
