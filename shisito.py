@@ -141,10 +141,10 @@ def main():
   print('🌶' +  ' ' + 'Running Shisito markdown valiation tests')
 
   config = validate_shisito_config()
-  run_tests[
+  run_tests([
     test_files_exist(config),
     test_validate_types(config)
-  ]
+  ])
 
   print('😇 All tests pass!')
   sys.exit(0)
