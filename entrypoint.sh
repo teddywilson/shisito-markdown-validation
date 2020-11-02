@@ -9,7 +9,7 @@ MODE_TEST=TEST
 MODE=$1
 if [[ ${MODE} == ${MODE_TEST} ]]
 then
-  python test_shisito.py
+  python /test_shisito.py
 else
-  python shisito.py
+  python /shisito.py
 fi
