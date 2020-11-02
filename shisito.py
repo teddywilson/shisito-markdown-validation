@@ -142,7 +142,7 @@ def main():
 
   config = validate_shisito_config()
   run_tests[
-    test_files_exist(config)
+    test_files_exist(config),
     test_validate_types(config)
   ]
 
