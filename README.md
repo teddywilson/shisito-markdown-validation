@@ -17,8 +17,8 @@
 
 Shisito is a Github action used for validating markdown/YAML files as part of your CI pipeline.
 
-Use frameworks like [GatsbyJS](https://github.com/gatsbyjs/gatsby) and
-[https://jekyllrb.com/](https://jekyllrb.com/) to host your content without having to
+Use frameworks like [Gatsby](https://github.com/gatsbyjs/gatsby) and
+[Jekyll](https://jekyllrb.com/) to host your content without having to
 worry about corrupted markdown files upon deployment.
 
 ### Getting started
