@@ -10,9 +10,11 @@ import yaml
 
 from pathlib import Path
 
+
 SHISITO_CONFIG_DIR = '/github/workspace'
 SHISITO_CONFIG_FILENAME = 'shisito.yml'
 SHISITO_CONFIG_PATH = os.path.join(SHISITO_CONFIG_DIR, SHISITO_CONFIG_FILENAME)
+
 
 KEY_COLLECTIONS = 'collections'
 KEY_FIELDS = 'fields'
@@ -21,13 +23,16 @@ KEY_TYPE_STR = 'str'
 KEY_TYPE_INT = 'int'
 KEY_TYPE_LIST = 'list'
 
+
 SHISITO_CONFIG_REQUIRED_KEYS = {
   KEY_COLLECTIONS: list,
 }
 
+
 COLLECTION_REQUIRED_KEYS = {
   KEY_FILEPATTERN: str,
 }
+
 
 SUPPORTED_TYPES = {
   KEY_TYPE_STR: str,
@@ -35,14 +40,29 @@ SUPPORTED_TYPES = {
   KEY_TYPE_LIST : list,
 }
 
+
 def success(test_name):
   """Prints success result for a test name"""
   print('✅' + ' ' + test_name)
+
 
 def fail(error_message):
   """Fails test runner with a given error message"""
   print('❌' + ' ' + error_message)
   sys.exit(1)
+
+
+def run_test(test):
+  """Executes a test and prints out a success message if it passes"""
+  test()
+  success(test.__name__)  
+
+
+def run_tests(tests):
+  """Executes an array of tests"""
+  for test in tests:
+    run_test(test)  
+
 
 def validate_document_has_allowlisted_keys(doc, filepath, required_keys=[], optional_keys=[]):
   """Validates that a document contains all of the necessary keys and correct corresponding types"""
@@ -68,6 +88,7 @@ def validate_document_has_allowlisted_keys(doc, filepath, required_keys=[], opti
       fail('Error parsing file: %s. Optional key %s has invalid type %s which should be %s' % (
         filepath, key, type(doc[key]), optional_keys[key]))  
 
+
 def validate_shisito_config():
   """Validates Shisito configuration file"""
   if not os.path.isfile(SHISITO_CONFIG_PATH):
@@ -81,6 +102,7 @@ def validate_shisito_config():
         config[key] = doc[key]
       return config   
 
+
 def test_files_exist(config):
   """Validates that files exist for each defined collection."""
   for collection in config[KEY_COLLECTIONS]:
@@ -91,6 +113,7 @@ def test_files_exist(config):
       fail('Test files exist failed for path: %s' % filepattern)
     else:
       success('%d file(s) found at path: %s' % (counts.sum(), filepattern))
+
 
 def test_validate_types(config):
   """Validates fields and corresponding types for each collection."""
@@ -113,15 +136,19 @@ def test_validate_types(config):
           validate_document_has_allowlisted_keys(doc, file, required_keys);
           success('Validated fields and types for file: %s' % file)
 
+
 def main():
   print('🌶' +  ' ' + 'Running Shisito markdown valiation tests')
 
   config = validate_shisito_config()
-  test_files_exist(config)
-  test_validate_types(config)
+  run_tests[
+    test_files_exist(config)
+    test_validate_types(config)
+  ]
 
   print('😇 All tests pass!')
   sys.exit(0)
+
 
 if __name__ == "__main__":
     main()
