@@ -228,7 +228,6 @@ def test_unique_fields(config):
               visited_unique_fields[doc[unique_field]] = file
 
 
-
 def main():
   print('🌶' +  ' ' + 'Running Shisito markdown valiation tests')
 
