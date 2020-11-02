@@ -17,7 +17,7 @@ SHISITO_CONFIG_PATH = os.path.join(SHISITO_CONFIG_DIR, SHISITO_CONFIG_FILENAME)
 
 
 KEY_COLLECTIONS = 'collections'
-KEY_FIELDS = 'fields'
+KEY_SCHEMA = 'schema'
 KEY_FILEPATTERN = 'filepattern'
 KEY_TYPE_STR = 'str'
 KEY_TYPE_INT = 'int'
@@ -137,7 +137,7 @@ def test_files_exist(config):
 def test_validate_types(config):
   """Validates fields and corresponding types for each collection."""
   for collection in config[KEY_COLLECTIONS]:
-    fields = collection[KEY_FIELDS]
+    fields = collection[KEY_SCHEMA]
     required_keys = {}
     # These will only ever be a 1-element dict
     for field in fields:

@@ -1,10 +1,10 @@
 collections:
   -
     filepattern: content/authors/*.md
-    fields:
+    schema:
       - name: str
   -
     filepattern: content/books/*.md
-    fields:
+    schema:
       - name: str
       - author: str
