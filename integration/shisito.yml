@@ -5,6 +5,9 @@ collections:
     schema:
       - name:
         - type: str
+      - page_layout:
+        - type: str
+        - value: author
   -
     filepattern: content/books/*.md
     filename_regex: ^[a-z-]*\.md
