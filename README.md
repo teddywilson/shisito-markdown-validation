@@ -77,6 +77,8 @@ Follow the main example project for a better overview of how Shisito works end t
 
 If you have any example projects to offer, please add them here!
 
+- [Clothesline Recordings Website](https://github.com/teddywilson/clothesline-recordings)
+
 ## Testing
 Currently testing is pretty limited, but I am working on it. For the time being, to test out new functionality, clone the sample project, and run it using a local build of Shisito.
 
