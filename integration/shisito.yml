@@ -8,6 +8,9 @@ collections:
       - page_layout:
         - type: str
         - value: author
+      - url:
+        - type: str
+        - unique: true        
   -
     filepattern: content/books/*.md
     filename_regex: ^[a-z-]*\.md
@@ -23,3 +26,6 @@ collections:
         - type: str
         - required: false
         - value: book
+      - url:
+        - type: str
+        - unique: true
