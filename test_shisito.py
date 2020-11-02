@@ -7,7 +7,7 @@ import shisito
 
 
 class TestBasicAssertion(unittest.TestCase):
-    def test_yep(self):
+    def test_basicAssertion(self):
         self.assertEquals(True, True);
         
 
