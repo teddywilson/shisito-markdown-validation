@@ -27,7 +27,7 @@ Shisito is a Github action used for validating markdown/YAML files as part of yo
 
 ### Getting started
 
-1. ** First, dd Shisito to your Github workflow. **
+1. ** First, add Shisito to your Github workflow. **
 
 The first step will be to add the Shisito action to your [Github workflow](https://docs.github.com/en/free-pro-team@latest/actions/learn-github-actions/introduction-to-github-actions).
 
