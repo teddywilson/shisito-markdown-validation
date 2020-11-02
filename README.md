@@ -7,7 +7,7 @@
   Shisito Markdown Validation
 </h1>
 <h3 align="center">
-  Sweet and spicy markdown validation tests.
+  Sweet, spicy, and rich markdown validation tests.
 </h3>
 <p align="center">
   <a href="https://github.com/teddywilson/shisito/blob/master/LICENSE">
