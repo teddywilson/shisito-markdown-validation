@@ -1,11 +1,13 @@
 collections:
   -
     filepattern: content/authors/*.md
+    filename_regex: ^[a-z-]*\.md
     schema:
       - name:
         - type: str
   -
     filepattern: content/books/*.md
+    filename_regex: ^[a-z-]*\.md
     schema:
       - name: 
         - type: str
