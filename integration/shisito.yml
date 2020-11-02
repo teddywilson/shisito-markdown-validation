@@ -8,5 +8,3 @@ collections:
     fields:
       - name: str
       - author: str
-      - misc: str
-
