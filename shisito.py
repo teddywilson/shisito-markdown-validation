@@ -19,6 +19,7 @@ SHISITO_CONFIG_PATH = os.path.join(SHISITO_CONFIG_DIR, SHISITO_CONFIG_FILENAME)
 KEY_COLLECTIONS = 'collections'
 KEY_SCHEMA = 'schema'
 KEY_FILEPATTERN = 'filepattern'
+KEY_FILENAME_REGEX = 'filename_regex'
 KEY_REQUIRED = 'required'
 KEY_TYPE = 'type'
 KEY_TYPE_STR = 'str'
@@ -171,13 +172,27 @@ def test_validate_types(config):
           success('Validated fields and types for file: %s' % file)
 
 
+def test_filename_regex(config):
+  for collection in config[KEY_COLLECTIONS]:
+    if KEY_FILENAME_REGEX in collection:
+      filename_regex = collection[KEY_FILENAME_REGEX]
+      filepattern = collection[KEY_FILEPATTERN]
+      files = [file for file in Path(SHISITO_CONFIG_DIR).rglob(filepattern)] 
+      for file in files:
+        filename = os.path.basename(file)
+        if not re.match(filename_regex, filename):
+          fail('%s does not match filename_regex: %s' % (file, filename_regex))
+
+
 def main():
   print('🌶' +  ' ' + 'Running Shisito markdown valiation tests')
 
+  # TODO(teddywilson) validate collections
   config = validate_config(SHISITO_CONFIG_PATH)
   run_tests(config, [
     test_files_exist,
-    test_validate_types
+    test_validate_types,
+    test_filename_regex
   ])
 
   print('😇 All tests pass!')

@@ -53,6 +53,7 @@ An example `shisito.yml` file:
 collections:
   -
     filepattern: authors/*
+    filename_regex: ^[a-z-]*\.md    
     schema:
       - name:
         - type: str    
@@ -76,6 +77,7 @@ In essence you will define a `collections` list that contains `filepattern` stri
 |-------|------|-------------|
 |collections|list|Top-level list of file collections you want to run tests against|
 |filepattern|string|Filepattern that follows standard Unix file expansion (e.g., `files/*.markdown`, `content/posts/*[1-9].yml`, etc.)|
+|filename_regex|string|Regex that will be matched against individual filenames and suffixes. This is useful is you want to keep your `filepattern` general and have more fine-grained control about individual filenames – e.g., grabbing all files in a directory with `filepattern` and ensuring that all files meet the `filename_regex` criteria.|
 |schema|list|Individual fields, and their corresponding types, within a collection. Currently, `str`, `int`, and `list` are supported. If `required` is set to `false`, field existence is not required, however type checking is applied if existence is found; can be ommitted or set to `true`.|
 
 
