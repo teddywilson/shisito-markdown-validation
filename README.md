@@ -119,7 +119,8 @@ Follow the main example project for a better overview of how Shisito works end t
 
 If you have any other example projects to offer, please add them here!
 
-- [Clothesline Recordings Website](https://github.com/teddywilson/clothesline-recordings)
+- [defund12.org](https://github.com/defund12/defund12.org)
+- [clotheslinerecordings.com](https://github.com/teddywilson/clothesline-recordings)
 
 ## Testing
 Currently testing infrastructure is lacking a bit, but for the time being, refer to the following to setup and run unit and integation tests. Personally, I prefer using Docker exclusively when interacting with Python, but hope to get around adding documentation for local pip setup.
