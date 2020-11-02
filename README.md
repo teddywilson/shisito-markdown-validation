@@ -96,7 +96,7 @@ Any help with testing/setup would be greatly appreciated!
 
 ## Contributing
 Since Shisito has only just begun development, there is tons of work to do! The main focus at the time being is adding more functionality to the markdown validation test runner. Some of these tasks include the following:
-- [] More field and type validation, namely list(subtype) validation with multiple levels of depth.
-- [] Type validation beyond primitives – e.g., phone numbers, emails, etc.
-- [] Add unit tests to `test_shisito.py` and make `shisito.py` more unit-testable.
-- [] Literally anything!
+- [ ] More field and type validation, namely list(subtype) validation with multiple levels of depth.
+- [ ] Type validation beyond primitives – e.g., phone numbers, emails, etc.
+- [ ] Add unit tests to `test_shisito.py` and make `shisito.py` more unit-testable.
+- [ ] Literally anything!
