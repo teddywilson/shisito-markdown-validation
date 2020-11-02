@@ -8,7 +8,4 @@ COPY . /
 ADD shisito.py /
 RUN chmod +x /shisito.py
 
-LABEL "com.github.actions.icon"="check"  
-LABEL "com.github.actions.color"="red"  
-
 CMD [ "python", "/shisito.py" ]
