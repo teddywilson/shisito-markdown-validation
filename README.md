@@ -17,21 +17,15 @@
 
 Shisito is a Github action used for validating markdown/YAML files as part of your CI pipeline.
 
-- **Build static websites, safer.** Use frameworks like [GatsbyJS](https://github.com/gatsbyjs/gatsby)
-  and [https://jekyllrb.com/](https://jekyllrb.com/) to host your content without having to
-  worry about corrupted markdown files upond deployment.
-
-- **Be alerted of errors before you deploy.** Since Shisito is fully integration with Github
-  actions, you can add markdown/YAML validation to your CI pipeline easily, for free, and be
-  alerted on critical errors before your content goes live.
+Use frameworks like [GatsbyJS](https://github.com/gatsbyjs/gatsby) and
+[https://jekyllrb.com/](https://jekyllrb.com/) to host your content without having to
+worry about corrupted markdown files upon deployment.
 
 ### Getting started
 
-1. ** First, add Shisito to your Github workflow. **
+1. ** Add the Shisito Github action to your workflow. **
 
-The first step will be to add the Shisito action to your [Github workflow](https://docs.github.com/en/free-pro-team@latest/actions/learn-github-actions/introduction-to-github-actions).
-
-In your your workflow `.yml` file, add Shisito as a step. For example, a simple CI file (`.github/workflows/ci.yml`) that runs on any push, may look like the following (excluding any other steps you might add):
+In your your workflow `.yml` file, add Shisito. You can find the latest version at the following: https://github.com/teddywilson/shisito/releases.
 
 ```
 name: CI
@@ -43,13 +37,12 @@ jobs:
     name: build-library
     steps:
       - uses: actions/checkout@v1
-      # Find most recent version at: https://github.com/teddywilson/shisito/releases
       - uses: teddywilson/shisito@{VERSION}
 ```
 
-2. ** Define your Shisito configuration file. **
+2. ** Define your configuration file. **
 
-In the root directory of your project, you must define a `shisito.yml` file. This configuration file provides Shisito with the information it needs to run tests against your markdown files.
+In the root directory of your repository, you must define a `shisito.yml` file. This configuration file provides Shisito with the information it needs to run validation tests against your files.
 
 An example `shisito.yml` file:
 
@@ -67,10 +60,17 @@ collections:
       - hosts: list
 ```
 
-Supported types: `[str, int, list]`
-NOTE: list type validation (e.g., `list(int)`) is not supported currently, but will be soon.
+That's it!
 
-The `filepattern` string follows standard Unix file expansion. E.g., (`files/*`, `content/*/*.md`, `files/*.markdown`). If you don't specify a file extension all files in the matching directory will be ran against validation tests.
+#### Documentation
+
+| Field | type | description |
+|-------|------|-------------|
+|collecionts|list|Top-level list of file collections you want to run tests against.|
+|filepattern|string|Filepattern that follows standard Unix file expansion (e.g., `files/*.markdown`, `content/posts/*[1-9].yml`, etc.|
+|fields|list|Individual fields, and their corresponding types, within a collection. Currently, `str`, `int`, and `list` are supported. |
+
+NOTE: currently, Shisito offers one level of depth (or two if `list` is used). We are working on supported as many levels of depth as you need.
 
 ### Examples
 Follow the main example project for a better overview of how Shisito works end to end here: https://github.com/teddywilson/example-shisito-project.
@@ -96,6 +96,6 @@ Any help with testing/setup would be greatly appreciated!
 
 ### Contributing
 Since Shisito has only just begun development, there is tons of work to do! The main focus at the time being is adding more functionality to the markdown validation test runner. Some of these tasks include the following:
-- More field and type validation, namely list(subtype) validation.
-- Type validation beyond primitives – e.g., phone numbers, emails, etc.
-- Literally anything!
+[] More field and type validation, namely list(subtype) validation with multiple levels of depth.
+[] Type validation beyond primitives – e.g., phone numbers, emails, etc.
+[] Literally anything!
