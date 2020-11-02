@@ -66,9 +66,9 @@ That's it!
 
 | Field | type | description |
 |-------|------|-------------|
-|collecionts|list|Top-level list of file collections you want to run tests against.|
-|filepattern|string|Filepattern that follows standard Unix file expansion (e.g., `files/*.markdown`, `content/posts/*[1-9].yml`, etc.|
-|fields|list|Individual fields, and their corresponding types, within a collection. Currently, `str`, `int`, and `list` are supported. |
+|collecionts|list|Top-level list of file collections you want to run tests against|
+|filepattern|string|Filepattern that follows standard Unix file expansion (e.g., `files/*.markdown`, `content/posts/*[1-9].yml`, etc.)|
+|fields|list|Individual fields, and their corresponding types, within a collection. Currently, `str`, `int`, and `list` are supported|
 
 NOTE: currently, Shisito offers one level of depth (or two if `list` is used). We are working on supported as many levels of depth as you need.
 
