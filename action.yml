@@ -1,7 +1,10 @@
 name: 'Shisito Markdown Validation'
 description: 'Rich markdown field and type validation'
-icon: 'check'
-color: 'red'
+
 runs:
   using: 'docker'
   image: 'Dockerfile'
+
+branding:
+  icon: 'check'
+  color: 'red'
