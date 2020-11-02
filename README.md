@@ -54,15 +54,12 @@ collections:
   -
     # Collection of files representing authors.
     filepattern: authors/*
-    # If files are found in authors/ that do not meet the following regex criteria, and error will be thrown.
-    # This field is totally optional, as you will see below.
     filename_regex: ^[a-z-]*\.md    
     schema:
       - name:
         - type: str
       - birthplace:
         - type: str
-      # Value for all page_layout attributes must be `author`.
       - page_layout:
         - type: str
         - value: author
@@ -75,7 +72,6 @@ collections:
     schema:
       - name:
         - type: str
-      # This field is optional, but if found must be an int.
       - max_capacity:
         - type: int
         - required: false
