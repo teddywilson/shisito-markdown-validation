@@ -5,10 +5,9 @@
 import unittest
 import shisito
 
-
-class TestBasicAssertion(unittest.TestCase):
+class TestValidateConfig(unittest.TestCase):
     def test_basicAssertion(self):
-        self.assertEquals(True, True);
+        #shisito.validate_shisito_config('/tmp/config')
         
 
 if __name__ == '__main__':

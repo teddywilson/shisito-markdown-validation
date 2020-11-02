@@ -48,8 +48,7 @@ def success(test_name):
 
 def fail(error_message):
   """Fails test runner with a given error message"""
-  print('❌' + ' ' + error_message)
-  sys.exit(1)
+  raise Exception('❌' + ' ' + error_message')
 
 
 def run_test(config, test):
