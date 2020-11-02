@@ -14,7 +14,7 @@ jobs:
       - name: unit-tests
         uses: docker://docker
         with:
-          args: docker run -v shisito:latest TEST           
+          args: docker run shisito:latest TEST           
       - name: integration-tests
         uses: docker://docker
         with:
