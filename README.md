@@ -7,7 +7,7 @@
   Shisito Markdown Validation
 </h1>
 <h3 align="center">
-  Sweet and simple markdown field, type, and formatting validation and linting.
+  Simple and rich markdown field, type, and formatting validation.
 </h3>
 <p align="center">
   <a href="https://github.com/teddywilson/shisito/blob/master/LICENSE">
