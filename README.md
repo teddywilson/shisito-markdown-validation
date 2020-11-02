@@ -56,7 +56,9 @@ collections:
     filename_regex: ^[a-z-]*\.md    
     schema:
       - name:
-        - type: str    
+        - type: str
+      - birthplace
+        - type: str
   -
     filepattern: events/*/*/[1-9].markdown
     schema:
@@ -67,6 +69,14 @@ collections:
         - required: false
       - hosts:
         - type: list
+```
+
+An example `.md` file, `authors/james-joyce.md`:
+```
+---
+name: James Joyrce
+from: Rathgar, Ireland
+---
 ```
 
 In essence you will define a `collections` list that contains `filepattern` strings and `schema` definitions for files which match said pattern. Upon execution, Shosito will validate that matching files adhere to the defined schema – that's it!
