@@ -10,7 +10,6 @@ import yaml
 
 from pathlib import Path
 
-
 SHISITO_CONFIG_DIR = '/github/workspace'
 SHISITO_CONFIG_FILENAME = 'shisito.yml'
 SHISITO_CONFIG_PATH = os.path.join(SHISITO_CONFIG_DIR, SHISITO_CONFIG_FILENAME)
@@ -22,6 +21,7 @@ KEY_FILEPATTERN = 'filepattern'
 KEY_FILENAME_REGEX = 'filename_regex'
 KEY_REQUIRED = 'required'
 KEY_VALUE = 'value'
+KEY_UNIQUE = 'unique'
 KEY_TYPE = 'type'
 KEY_TYPE_STR = 'str'
 KEY_TYPE_INT = 'int'
@@ -133,7 +133,7 @@ def get_field_meta_or_fail(field, filepattern):
   # If a required value is present, ensure it matches the field's type
   if KEY_VALUE in field_meta and not isinstance(field_meta[KEY_VALUE], SUPPORTED_TYPES[field_meta[KEY_TYPE]]):
     fail('Value %s for field %s does not match its required type of %s' % (
-      field_meta[KEY_VALUE], field_name, field_meta[KEY_TYPE]))
+      field_meta[KEY_VALUE], field_name, field_meta[KEY_TYPE])) 
   return field_name, field_meta  
 
 
@@ -193,6 +193,7 @@ def test_validate_types(config):
 
 
 def test_filename_regex(config):
+  """Validates that filenames in a collection match filename_regex if provided."""
   for collection in config[KEY_COLLECTIONS]:
     if KEY_FILENAME_REGEX in collection:
       filename_regex = collection[KEY_FILENAME_REGEX]
@@ -204,16 +205,40 @@ def test_filename_regex(config):
           fail('%s does not match filename_regex: %s' % (file, filename_regex))
 
 
+def test_unique_fields(config):
+  """Ensures that fields are unique across a collection, if uniqueness is specified."""
+  for collection in config[KEY_COLLECTIONS]:
+    filepattern = collection[KEY_FILEPATTERN]
+    fields = collection[KEY_SCHEMA]
+    unique_fields = set()
+    visited_fields = {}
+    for field in fields:
+      field_name, field_meta = get_field_meta_or_fail(field, filepattern)
+      if KEY_UNIQUE in field_meta and field_meta[KEY_UNIQUE] is True:
+        unique_fields.add(field_name)
+    files = [file for file in Path(SHISITO_CONFIG_DIR).rglob(filepattern)] 
+    for file in files:
+      with open(file, 'r') as stream:
+        docs = yaml.safe_load_all(stream)
+        for doc in filter(None, docs):
+            for unique_field in unique_fields:
+              if unique_field in doc and unique_field in visited_fields:
+                fail('Unique field %s found in file %s already present in file %s' % (
+                  unique_field, file, visited_fields[unique_field]))
+              visited_fields[unique_field] = file
+
+
+
 def main():
   print('🌶' +  ' ' + 'Running Shisito markdown valiation tests')
 
-  # TODO(teddywilson) validate collections
   try:
     config = validate_config(SHISITO_CONFIG_PATH)
     run_tests(config, [
       test_files_exist,
       test_validate_types,
       test_filename_regex,
+      test_unique_fields
     ])
   except ShisitoTestFailure as f:
     print(f.message)

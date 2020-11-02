@@ -60,12 +60,15 @@ collections:
     schema:
       - name:
         - type: str
-      - birthplace
+      - birthplace:
         - type: str
       # Value for all page_layout attributes must be `author`.
-      - page_layout
+      - page_layout:
         - type: str
         - value: author
+      - url:
+        - type: str
+        - unqie: true
   -
     # Collection of files representing events.
     filepattern: events/*/*/[1-9].markdown
@@ -78,14 +81,18 @@ collections:
         - required: false
       - hosts:
         - type: list
+      - url:
+        - type: str
+        - unqie: true        
 ```
 
 An example `.md` file, `authors/james-joyce.md`:
 ```
 ---
-name: James Joyrce
+name: James Joyce
 birthplace: Rathgar, Ireland
 page_layout: author
+url: /james-joyce
 ---
 ```
 
@@ -93,14 +100,21 @@ In essence you will define a `collections` list that contains `filepattern` stri
 
 ## Documentation
 
+### Collection
 | Field | Type | Description |
 |-------|------|-------------|
 |collections|list|Top-level list of file collections you want to run tests against|
 |filepattern|string|Filepattern that follows standard Unix file expansion (e.g., `files/*.markdown`, `content/posts/*[1-9].yml`, etc.)|
 |filename_regex|string|Regex that will be matched against individual filenames and suffixes. This is useful is you want to keep your `filepattern` general and have more fine-grained control about individual filenames – e.g., grabbing all files in a directory with `filepattern` and ensuring that all files meet the `filename_regex` criteria.|
-|schema|list|Individual fields, and their corresponding types, within a collection. Currently, `str`, `int`, and `list` are supported. If `required` is set to `false`, field existence is not required, however type checking is applied if existence is found; can be ommitted or set to `true`. `value` enforces that all values of this field will be set to what is provided to the `value` attribute.|
+|schema|list|Individual fields, and their corresponding types, within a collection.|
 
-
+### Schema
+| Field | Type | Description |
+|-------|------|-------------|
+|type|string|Currently `str`, `int`, `list` types are supported.|
+|required|boolean|If required is set to `false` field existence is not required. However, if existence is found, type checking is applied.|
+|value|string or int|Enforced value that will be checked against the field in question. Only primitive types are supported at the moment.|
+|unique|boolean|If unique is set to `true`, then Shisito will only allow unique values for this field across the entire collection. Useful for ensuring all URLs are unique.|
 
 NOTE: currently, Shisito offers one level of depth (or two if `list` is used). We are working on supported as many levels of depth as you need.
 
