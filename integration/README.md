@@ -3,7 +3,7 @@
 ```
 Docker build -t shisito .
 Docker run \
-  -v /Users/theodorewilson/dev/shisito/test:/github/workspace \
+  -v /Path/to/shisito/integration:/github/workspace \
   shisito \
   RUN
 ```
