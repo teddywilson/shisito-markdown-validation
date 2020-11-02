@@ -105,5 +105,4 @@ Since Shisito has only just begun development, there is tons of work to do! The 
 - [ ] Add unit tests to `test_shisito.py` and make `shisito.py` more unit-testable.
 - [ ] Literally anything!
 
-If you have a feature request, or if you've found a bug, please file an issue and I promise to resolve it promptly!
-https://github.com/teddywilson/shisito-markdown-validation/issues
+If you have a feature request, or if you've found a bug, please [open an issue](https://github.com/teddywilson/shisito-markdown-validation/issues) and I promise to resolve it promptly!
