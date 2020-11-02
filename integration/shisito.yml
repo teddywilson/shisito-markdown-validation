@@ -2,9 +2,15 @@ collections:
   -
     filepattern: content/authors/*.md
     schema:
-      - name: str
+      - name:
+        - type: str
   -
     filepattern: content/books/*.md
     schema:
-      - name: str
-      - author: str
+      - name: 
+        - type: str
+      - author:
+        - type: str
+      - date_published:
+        - type: str
+        - required: false
