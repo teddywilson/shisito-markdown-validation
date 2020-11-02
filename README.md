@@ -82,21 +82,15 @@ If you have any example projects to offer, please add them here!
 - [Clothesline Recordings Website](https://github.com/teddywilson/clothesline-recordings)
 
 ## Testing
-Currently testing is pretty limited, but I am working on it. For the time being, to test out new functionality, clone the sample project, and run it using a local build of Shisito.
 
-For example:
+### Unit Tests
 ```
-git clone https://github.com/teddywilson/example-shisito-project
-
-cd shisito
 Docker build -t shisito .
-
-Docker run \
-  -v /Path/to/example-shisito-project:/github/workspace \
-  shisito
+Docker run shisito TEST
 ```
 
-Any help with testing/setup would be greatly appreciated!
+### Integration Tests
+More information about running integration tests can be found [here](https://github.com/teddywilson/shisito-markdown-validation/tree/main/integration).
 
 ## Contributing
 Since Shisito has only just begun development, there is tons of work to do! The main focus at the time being is adding more functionality to the markdown validation test runner. Some of these tasks include the following:
