@@ -35,23 +35,9 @@ class TestValidateConfig(unittest.TestCase):
         except Exception:
             self.fail('unexpected exception raised')
         else:
-            self.fail('ExpectedException not raised')       
+            self.fail('ExpectedException not raised')          
 
-    def test_configMissingCollectionsFails(self):
-        config = open('/tmp/shisito.yml', 'w')
-        config.write(""" not_collection:
-                            -
-                                some_random_field""")
-        config.close()        
-        try:
-            shisito.validate_config('/tmp/shisito.yml')
-        except ShisitoTestFailure as e:
-            self.assertEqual(e.code, ERROR_CODE_CORRUPTED_FILE)
-        except Exception:
-            self.fail('unexpected exception raised')
-        else:
-            self.fail('ExpectedException not raised')      
-
+    """NOTE: config field validation will be covered by validate_document_has_allowlisted_keys() tests"""
     def test_validConfigSucceeds(self):
         config = open('/tmp/shisito.yml', 'w')
         config.write(""" collections:
