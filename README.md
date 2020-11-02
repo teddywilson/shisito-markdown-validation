@@ -21,6 +21,8 @@ Use frameworks like [Gatsby](https://github.com/gatsbyjs/gatsby) and
 [Jekyll](https://jekyllrb.com/) to host your content without having to
 worry about corrupted markdown files upon deployment.
 
+NOTE: this project is in early stages of development.
+
 ## Getting started
 
 1. **Add the Shisito Github action to your workflow.**
