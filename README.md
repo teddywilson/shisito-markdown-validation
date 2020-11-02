@@ -23,7 +23,7 @@ worry about corrupted markdown files upon deployment.
 
 ### Getting started
 
-1. ** Add the Shisito Github action to your workflow. **
+1.**Add the Shisito Github action to your workflow.**
 
 In your your workflow `.yml` file, add Shisito. You can find the latest version at the following: https://github.com/teddywilson/shisito/releases.
 
@@ -40,7 +40,7 @@ jobs:
       - uses: teddywilson/shisito@{VERSION}
 ```
 
-2. ** Define your configuration file. **
+2.**Define your configuration file.**
 
 In the root directory of your repository, you must define a `shisito.yml` file. This configuration file provides Shisito with the information it needs to run validation tests against your files.
 
