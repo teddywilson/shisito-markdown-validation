@@ -21,6 +21,7 @@ KEY_SCHEMA = 'schema'
 KEY_FILEPATTERN = 'filepattern'
 KEY_FILENAME_REGEX = 'filename_regex'
 KEY_REQUIRED = 'required'
+KEY_VALUE = 'value'
 KEY_TYPE = 'type'
 KEY_TYPE_STR = 'str'
 KEY_TYPE_INT = 'int'
@@ -85,7 +86,7 @@ def run_tests(config, tests):
     run_test(config, test)  
 
 
-def validate_document_has_allowlisted_keys(doc, filepath, required_keys=[], optional_keys=[]):
+def validate_document_has_allowlisted_keys(doc, filepath, required_keys=[], optional_keys=[], required_values=[]):
   """Validates that a document contains all of the necessary keys and correct corresponding types"""
   required_keys_not_found = []
   invalid_types = []
@@ -96,7 +97,10 @@ def validate_document_has_allowlisted_keys(doc, filepath, required_keys=[], opti
     elif not isinstance(doc[key], required_keys[key]):
       fail('Error parsing file: %s. Required key %s has invalid type %s which should be %s' % (
         filepath, key, type(doc[key]), required_keys[key]))
-      
+    if key in required_values and doc[key] != required_values[key]:
+      fail('Error parsing file: %s. Required key %s with required value `%s` equals `%s`' % (
+        filepath, key, required_values[key], doc[key]))
+
   if required_keys_not_found:
     prefixed_required_keys_not_found = ["🔑 ~> " + key for key in required_keys_not_found] 
     fail('Error parsing file: %s. Required keys not found:\n%s' % (
@@ -108,6 +112,29 @@ def validate_document_has_allowlisted_keys(doc, filepath, required_keys=[], opti
     elif not isinstance(doc[key], optional_keys[key]):
       fail('Error parsing file: %s. Optional key %s has invalid type %s which should be %s' % (
         filepath, key, type(doc[key]), optional_keys[key]))  
+    if key in required_values and doc[key] != required_values[key]:
+      fail('Error parsing file: %s. Required key %s with required value `%s` equals `%s`' % (
+        filepath, key, required_values[key], doc[key]))        
+
+
+def get_field_meta_or_fail(field, filepattern):
+  field_name = next(iter(field))
+  if not isinstance(field[field_name], list):
+    fail('Field `%s` metadata for filepattern %s must be in a list format' % (
+      field_name, filepattern))
+  field_meta = dict()
+  for meta in field[field_name]:
+    field_meta.update(meta)
+  if KEY_TYPE not in field_meta:
+    fail('Field `%s` in filepattern %s must have a type' % (field_name, filepattern))
+  # Validate the type is supported
+  if field_meta[KEY_TYPE] not in SUPPORTED_TYPES:
+    fail('Type %s for field %s not currently supported.' % (field_meta[KEY_TYPE], field_name))
+  # If a required value is present, ensure it matches the field's type
+  if KEY_VALUE in field_meta and not isinstance(field_meta[KEY_VALUE], SUPPORTED_TYPES[field_meta[KEY_TYPE]]):
+    fail('Value %s for field %s does not match its required type of %s' % (
+      field_meta[KEY_VALUE], field_name, field_meta[KEY_TYPE]))
+  return field_name, field_meta  
 
 
 def validate_config(path):
@@ -143,32 +170,25 @@ def test_validate_types(config):
     filepattern = collection[KEY_FILEPATTERN]    
     fields = collection[KEY_SCHEMA]
     required_keys = {}
+    required_values = {}
     optional_keys = {}
     # These will only ever be a 1-element dict
     for field in fields:
-      field_name = next(iter(field))
-      if not isinstance(field[field_name], list):
-        fail('Field `%s` metadata for filepattern %s must be in a list format' % (
-          field_name, filepattern))
-      field_meta = dict()
-      for meta in field[field_name]:
-        field_meta.update(meta)
-      if KEY_TYPE not in field_meta:
-        fail('Field `%s` in filepattern %s must have a type' % (field_name, filepattern))
-      # Validate the type is supported
-      if field_meta[KEY_TYPE] not in SUPPORTED_TYPES:
-        fail('Type %s for field %s not currently supported.' % (field_meta[KEY_TYPE], field_name))
+      field_name, field_meta = get_field_meta_or_fail(field, filepattern)
       # Determine whether the field is required or not  
       if KEY_REQUIRED not in field_meta or field_meta[KEY_REQUIRED] is True:
         required_keys[field_name] = SUPPORTED_TYPES[field_meta[KEY_TYPE]]
       else:
         optional_keys[field_name] = SUPPORTED_TYPES[field_meta[KEY_TYPE]]
+      if KEY_VALUE in field_meta:
+        required_values[field_name] = field_meta[KEY_VALUE]
     files = [file for file in Path(SHISITO_CONFIG_DIR).rglob(filepattern)] 
     for file in files:
       with open(file, 'r') as stream:
         docs = yaml.safe_load_all(stream)
         for doc in filter(None, docs):
-          validate_document_has_allowlisted_keys(doc, file, required_keys);
+          validate_document_has_allowlisted_keys(
+            doc, file, required_keys, optional_keys, required_values)
           success('Validated fields and types for file: %s' % file)
 
 
@@ -193,7 +213,7 @@ def main():
     run_tests(config, [
       test_files_exist,
       test_validate_types,
-      test_filename_regex
+      test_filename_regex,
     ])
   except ShisitoTestFailure as f:
     print(f.message)
