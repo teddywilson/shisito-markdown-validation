@@ -29,3 +29,9 @@ collections:
       - url:
         - type: str
         - unique: true
+  -
+    filepattern: nested/*/*/*
+    filename_regex: ^[a-z-]*\.md
+    schema:
+      - name: 
+        - type: str      

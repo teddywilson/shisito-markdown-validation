@@ -86,6 +86,11 @@ def run_tests(config, tests):
     run_test(config, test)  
 
 
+def get_files(dir, filepattern):
+  """Concatenates a directory and filepattern and returns all matching paths."""
+  return [file for file in Path(dir).rglob(filepattern) if file.is_file()] 
+
+
 def validate_document_has_allowlisted_keys(doc, filepath, required_keys=[], optional_keys=[], required_values=[]):
   """Validates that a document contains all of the necessary keys and correct corresponding types"""
   required_keys_not_found = []
@@ -156,10 +161,10 @@ def test_files_exist(config):
   """Validates that files exist for each defined collection."""
   for collection in config[KEY_COLLECTIONS]:
     filepattern = collection[KEY_FILEPATTERN]
-    files = [file for file in Path(SHISITO_CONFIG_DIR).rglob(filepattern)] 
+    files = get_files(SHISITO_CONFIG_DIR, filepattern)
     _, counts = np.unique([file.parent for file in files ], return_counts=True)    
     if counts.sum() == 0:
-      fail('Test files exist failed for path: %s' % filepattern)
+      fail('No files exist for filepattern: %s' % filepattern)
     else:
       success('%d file(s) found at path: %s' % (counts.sum(), filepattern))
 
@@ -182,7 +187,7 @@ def test_validate_types(config):
         optional_keys[field_name] = SUPPORTED_TYPES[field_meta[KEY_TYPE]]
       if KEY_VALUE in field_meta:
         required_values[field_name] = field_meta[KEY_VALUE]
-    files = [file for file in Path(SHISITO_CONFIG_DIR).rglob(filepattern)] 
+    files = get_files(SHISITO_CONFIG_DIR, filepattern)
     for file in files:
       with open(file, 'r') as stream:
         docs = yaml.safe_load_all(stream)
@@ -197,7 +202,7 @@ def test_filename_regex(config):
     if KEY_FILENAME_REGEX in collection:
       filename_regex = collection[KEY_FILENAME_REGEX]
       filepattern = collection[KEY_FILEPATTERN]
-      files = [file for file in Path(SHISITO_CONFIG_DIR).rglob(filepattern)] 
+      files = get_files(SHISITO_CONFIG_DIR, filepattern)
       for file in files:
         filename = os.path.basename(file)
         if not re.match(filename_regex, filename):
@@ -215,7 +220,7 @@ def test_unique_fields(config):
       field_name, field_meta = get_field_meta_or_fail(field, filepattern)
       if KEY_UNIQUE in field_meta and field_meta[KEY_UNIQUE] is True:
         unique_fields.add(field_name)
-    files = [file for file in Path(SHISITO_CONFIG_DIR).rglob(filepattern)] 
+    files = get_files(SHISITO_CONFIG_DIR, filepattern)
     for file in files:
       with open(file, 'r') as stream:
         docs = yaml.safe_load_all(stream)
