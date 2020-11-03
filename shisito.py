@@ -232,7 +232,7 @@ def __test_unique_fields(config):
             for unique_field in unique_fields:
               if unique_field in doc and doc[unique_field] in visited_unique_fields:
                 __fail('Unique field %s found in file %s already present in file %s' % (
-                  unique_field, file, visited_unique_fields[unique_field]))
+                  unique_field, file, visited_unique_fields[doc[unique_field]]))
               visited_unique_fields[doc[unique_field]] = file
 
 
