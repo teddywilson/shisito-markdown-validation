@@ -11,5 +11,5 @@ if [[ ${MODE} == ${MODE_TEST} ]]
 then
   python /test_shisito.py
 else
-  python /shisito.py
+  python /shisito.py /github/workspace
 fi
