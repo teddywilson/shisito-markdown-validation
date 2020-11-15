@@ -22,7 +22,7 @@ Use frameworks like [Gatsby](https://github.com/gatsbyjs/gatsby) and
 worry about corrupted markdown files upon deployment. Simply define a
 schema for each file type and let Shisito do the heavy lifting.
 
-NOTE: this project is in early stages of development and was mainly built to learn about how Github Actions works end to end.
+NOTE: this project is in early stages of development and was mainly built to learn about how Github Actions works end to end. I understand that there are already tools like this out there and that there are even tools like this built into the aforementioned frameworks (e.g., Gatsby schemas).
 
 ## Getting started
 
